@@ -26,6 +26,7 @@ As páginas utilizam consultas SQL localizadas em `emendas_app/sql/` e renderiza
 │   └── sql/                  # Arquivos .sql utilizados nas consultas
 ├── projeto_emendas_bd        # Configurações do projeto Django
 ├── templates                 # Arquivos estáticos (CSS)
+├── imagens/                  # Capturas de tela da aplicação (para o relatório)
 ├── *.xlsx                    # Planilhas de dados para importar
 └── requirements.txt          # Dependências Python
 ```
