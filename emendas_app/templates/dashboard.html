@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Total empenhado por ano</h2>
+<div class="w-full h-96">
+    <canvas id="chart" class="w-full h-full"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const anos = {{ years_json|safe }};
+const totais = {{ totals_json|safe }};
+
+const ctx = document.getElementById('chart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [{
+            label: 'Total Empenhado',
+            data: totais,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    font: { size: 14 }
+                }
+            },
+            tooltip: {
+                bodyFont: { size: 14 },
+                titleFont: { size: 16 }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { font: { size: 12 } }
+            },
+            x: {
+                ticks: {
+                    autoSkip: true,
+                    maxRotation: 45,
+                    minRotation: 45,
+                    font: { size: 12 }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Instituições Acima da Média{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6">Instituições com repasse acima da média</h2>
+<div class="w-full h-96 mb-6">
+    <canvas id="chart" class="w-full h-full"></canvas>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full text-sm divide-y divide-gray-300 rounded-lg overflow-hidden shadow mt-6">
+    <thead class="bg-blue-800 text-white">
+        <tr>
+            <th class="px-3 py-2 text-left">Instituição</th>
+            <th class="px-3 py-2 text-left">Total Empenhado</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+    {% for inst in instituicoes %}
+        <tr class="odd:bg-gray-50 even:bg-white">
+            <td class="px-3 py-2">{{ inst.nome }}</td>
+            <td class="px-3 py-2">{{ inst.total_empenhado }}</td>
+        </tr>
+    {% empty %}
+        <tr><td class="px-3 py-2" colspan="2">Nenhuma instituição encontrada.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const nomes = {{ nomes_json|safe }};
+const totais = {{ totais_json|safe }};
+
+const chartCanvas = document.getElementById('chart');
+const ctx = chartCanvas.getContext('2d');
+chartCanvas.height = Math.max(400, nomes.length * 20);
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: nomes,
+        datasets: [{
+            label: 'Total Empenhado',
+            data: totais,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: { font: { size: 14 } }
+            },
+            tooltip: {
+                bodyFont: { size: 14 },
+                titleFont: { size: 16 }
+            }
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                ticks: { font: { size: 12 } }
+            },
+            y: {
+                ticks: {
+                    autoSkip: false,
+                    font: { size: 12 }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

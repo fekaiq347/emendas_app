@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes da Emenda{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Detalhes da Emenda</h2>
+<p class="mb-1"><strong>Código:</strong> {{ emenda.cod_emenda }}</p>
+<p class="mb-1"><strong>Número:</strong> {{ emenda.numero_emenda }}</p>
+<p class="mb-1"><strong>Ano:</strong> {{ emenda.ano }}</p>
+<p class="mb-1"><strong>Tipo:</strong> {{ emenda.tipo }}</p>
+<p class="mb-1"><strong>Proponente:</strong> {{ emenda.cod_proponente.nome }}</p>
+<p class="mb-4"><strong>Função:</strong> {{ emenda.cod_funcao.nome }}</p>
+
+<h3 class="font-semibold mt-4 mb-2">Ações Orçamentárias</h3>
+<table class="min-w-full divide-y divide-gray-300 mb-4">
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Valor Empenhado</th>
+            <th>Valor Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for acao in acoes %}
+        <tr class="odd:bg-white even:bg-gray-50">
+            <td class="px-2 py-1">{{ acao.descricao }}</td>
+            <td class="px-2 py-1">{{ acao.valor_empenhado }}</td>
+            <td class="px-2 py-1">{{ acao.valor_pago }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="3">Nenhuma ação encontrada.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="font-semibold mt-4 mb-2">Repasses</h3>
+<table class="min-w-full divide-y divide-gray-300">
+    <thead>
+        <tr>
+            <th>Instituição</th>
+            <th>Possui Convênio</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for repasse in repasses %}
+        <tr class="odd:bg-white even:bg-gray-50">
+            <td class="px-2 py-1">{{ repasse.cod_instituicao.nome }}</td>
+            <td class="px-2 py-1">{{ repasse.possui_convenio|yesno:"Sim,Não" }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="2">Nenhum repasse encontrado.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

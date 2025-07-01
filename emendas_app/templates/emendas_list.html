@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Emendas{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6">Lista de Emendas</h2>
+<form method="get" class="mb-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 items-end bg-gray-50 p-4 rounded-lg shadow">
+    <div class="flex flex-col">
+        <label for="numero" class="font-medium mb-1">Número</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="numero" id="numero" value="{{ numero }}">
+    </div>
+    <div class="flex flex-col">
+        <label for="ano" class="font-medium mb-1">Ano</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="ano" id="ano" value="{{ ano }}">
+    </div>
+    <div class="flex flex-col">
+        <label for="codigo" class="font-medium mb-1">Código</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="codigo" id="codigo" value="{{ codigo }}">
+    </div>
+    <div class="flex flex-col">
+        <label for="tipo" class="font-medium mb-1">Tipo</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="tipo" id="tipo" value="{{ tipo }}">
+    </div>
+    <div class="flex flex-col">
+        <label for="proponente" class="font-medium mb-1">Proponente</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="proponente" id="proponente" value="{{ proponente }}">
+    </div>
+    <div class="flex flex-col">
+        <label for="funcao" class="font-medium mb-1">Função</label>
+        <input class="border border-gray-300 rounded p-2" type="text" name="funcao" id="funcao" value="{{ funcao }}">
+    </div>
+    <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition-colors duration-200">
+        Filtrar
+    </button>
+</form>
+<div class="overflow-x-auto rounded-lg shadow">
+<table class="min-w-full text-sm divide-y divide-gray-300">
+    <thead class="bg-blue-800 text-white">
+        <tr>
+            <th class="px-3 py-2 text-left">Código</th>
+            <th class="px-3 py-2 text-left">Número</th>
+            <th class="px-3 py-2 text-left">Ano</th>
+            <th class="px-3 py-2 text-left">Tipo</th>
+            <th class="px-3 py-2 text-left">Proponente</th>
+            <th class="px-3 py-2 text-left">Função</th>
+            <th class="px-3 py-2 text-left">Total Empenhado</th>
+            <th class="px-3 py-2 text-left">Total Pago</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+    {% for emenda in page_obj %}
+        <tr class="odd:bg-gray-50 even:bg-white hover:bg-gray-200">
+            <td class="px-3 py-2"><a class="text-blue-600 underline" href="{% url 'emenda_detail' emenda.cod_emenda %}">{{ emenda.cod_emenda }}</a></td>
+            <td class="px-3 py-2">{{ emenda.numero_emenda }}</td>
+            <td class="px-3 py-2">{{ emenda.ano }}</td>
+            <td class="px-3 py-2">{{ emenda.tipo }}</td>
+            <td class="px-3 py-2">{{ emenda.cod_proponente.nome }}</td>
+            <td class="px-3 py-2">{{ emenda.cod_funcao.nome }}</td>
+            <td class="px-3 py-2">{{ emenda.total_empenhado|default:0 }}</td>
+            <td class="px-3 py-2">{{ emenda.total_pago|default:0 }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="8">Nenhuma emenda encontrada.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<div class="pagination mt-6 flex items-center justify-center gap-4">
+    {% if page_obj.has_previous %}
+        <a class="text-blue-600 underline font-semibold" href="?page={{ page_obj.previous_page_number }}&numero={{ numero }}&ano={{ ano }}&codigo={{ codigo }}&tipo={{ tipo }}&proponente={{ proponente }}&funcao={{ funcao }}">Anterior</a>
+    {% endif %}
+    <span class="font-medium">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a class="text-blue-600 underline font-semibold" href="?page={{ page_obj.next_page_number }}&numero={{ numero }}&ano={{ ano }}&codigo={{ codigo }}&tipo={{ tipo }}&proponente={{ proponente }}&funcao={{ funcao }}">Próxima</a>
+    {% endif %}
+</div>
+{% endblock %}
