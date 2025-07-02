@@ -40,7 +40,7 @@ As páginas utilizam consultas SQL localizadas em `emendas_app/sql/` e renderiza
 2. **Instalação das dependências**
    ```bash
    python -m venv .venv
-   source .venv/bin/activate
+   source venv/bin/activate
    pip install -r requirements.txt
    ```
 
