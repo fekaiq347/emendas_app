@@ -95,10 +95,11 @@ As páginas utilizam consultas SQL localizadas em `emendas_app/sql/` e renderiza
    no diretório atual.
 
 7. **Execução do servidor de desenvolvimento**
+   Saia do shell Python pressionando Ctrl + D ou digitando exit() e faça:
    ```bash
    python manage.py runserver
    ```
-   A aplicação estará acessível em `http://localhost:8000/`.
+   A aplicação estará acessível em `http://127.0.0.1:8000/`.
 
 ## Consultas SQL
 
