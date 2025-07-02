@@ -75,7 +75,9 @@ As páginas utilizam consultas SQL localizadas em `emendas_app/sql/` e renderiza
    Este repositório acompanha diversas planilhas (`*.xlsx`) com informações de proponentes, funções, localidades, instituições, programas, emendas, ações orçamentárias e repasses. Para carregar esses dados na base utilize o script `import_data.py`:
 
    ```bash
-   python manage.py shell -c "from emendas_app import import_data; import_data.importar_tudo()"
+   python manage.py shell
+   from emendas_app.import_data import importar_tudo
+   importar_tudo()
    ```
 
    O processo cria registros em lote e pode levar alguns minutos dependendo do volume de dados.
